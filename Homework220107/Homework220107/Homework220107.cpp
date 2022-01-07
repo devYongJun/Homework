@@ -1,10 +1,27 @@
 ﻿#include <iostream>
 #include <string>
 
-// string이 숫자인지 체크 
-bool IsNumberString(const std::string& strNum)
+int ExtractPort(const std::string& str)
 {
-	for (auto s : strNum)
+	int findIdx = str.find(":");
+
+	if (-1 == str.find(":"))
+	{
+		return -1;
+	}
+
+	std::string strPort = str.substr(findIdx + 1, str.size() - findIdx - 1);
+	if (strPort.size() == 0)
+	{
+		return -1;
+	}
+	return stoi(strPort);
+}
+
+// string이 숫자인지 체크 
+bool IsNumberString(const std::string& str)
+{
+	for (auto s : str)
 	{
 		if (std::isdigit(s) == false)
 		{
@@ -15,25 +32,29 @@ bool IsNumberString(const std::string& strNum)
 }
 
 // 유효한 범위체크
-bool IsRangeIp4(const std::string& strNum)
+bool IsRangeIp4(const std::string& str)
 {
-	int num = std::stoi(strNum);
+	int num = std::stoi(str);
 	return (num >= 0 && num <= 255);
 }
 
 // 유효한 IPv4인지 체크
 // 문자나 공백은 지운후 ip값 수정
-bool IsValidIp4(std::string& ip)
+bool IsValidIp4(std::string& strIp)
 {
 	int index = 0;
 	std::string ipNumbers[4];
 
-	for (char i : ip)
+	for (char i : strIp)
 	{
 		if (i == '.')
 		{
 			index++;
 			continue;
+		}
+		else if (i == ':')
+		{
+			break;
 		}
 		else if (std::isdigit(i) == false)
 		{
@@ -61,13 +82,13 @@ bool IsValidIp4(std::string& ip)
 		}
 	}
 
-	ip = "";
+	strIp = "";
 	for (int i = 0; i < 4; i++)
 	{
-		ip += ipNumbers[i];
+		strIp += ipNumbers[i];
 		if (i < 3)
 		{
-			ip += ".";
+			strIp += ".";
 		}
 	}
 	
@@ -105,9 +126,11 @@ int main()
 		{
 			break;
 		}
+
+		Port = ExtractPort(Ip);
 	}
 	
-	while (true)
+	while (Port == -1)
 	{
 		std::cout << "Port번호를 입력해주세요" << std::endl;
 		std::cin >> Port;
@@ -116,6 +139,7 @@ int main()
 		{
 			break;
 		}
+		Port = -1;
 	}
 
 	std::cout << "Ip : " << Ip << std::endl;
