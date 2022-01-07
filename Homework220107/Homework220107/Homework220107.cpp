@@ -1,29 +1,39 @@
 ﻿#include <iostream>
 #include <string>
+#include <vector>
 
-int ExtractPort(const std::string& str)
+using namespace std;
+
+// 특정 문자로 string 분리
+vector<string> SplitString(const string& str, const char delimiter)
 {
-	int findIdx = str.find(":");
+	vector<string> retVector;
+	string temp;
 
-	if (-1 == str.find(":"))
+	for (char c : str)
 	{
-		return -1;
+		if (c == delimiter)
+		{
+			retVector.push_back(temp);
+			temp = "";
+			continue;
+		}
+		temp += c;
 	}
 
-	std::string strPort = str.substr(findIdx + 1, str.size() - findIdx - 1);
-	if (strPort.size() == 0)
+	if (temp.empty() == false)
 	{
-		return -1;
+		retVector.push_back(temp);
 	}
-	return stoi(strPort);
+	return retVector;
 }
 
 // string이 숫자인지 체크 
-bool IsNumberString(const std::string& str)
+bool IsNumberString(const string& str)
 {
-	for (auto s : str)
+	for (char s : str)
 	{
-		if (std::isdigit(s) == false)
+		if (isdigit(s) == false)
 		{
 			return false;
 		}
@@ -31,122 +41,114 @@ bool IsNumberString(const std::string& str)
 	return true;
 }
 
-// 유효한 범위체크
-bool IsRangeIp4(const std::string& str)
+// 유효한 IPv4 범위 검사
+bool ValidRangeIp(const string& str)
 {
-	int num = std::stoi(str);
+	int num = stoi(str);
 	return (num >= 0 && num <= 255);
 }
 
-// 유효한 IPv4인지 체크
-// 문자나 공백은 지운후 ip값 수정
-bool IsValidIp4(std::string& strIp)
+// 유효한 포트범위 검사
+bool ValidRangePort(const string& str)
 {
-	int index = 0;
-	std::string ipNumbers[4];
-
-	for (char i : strIp)
-	{	
-		if (i == '.')
-		{
-			index++;
-			continue;
-		}
-		else if (i == ':')
-		{
-			break;
-		}
-		else if (std::isdigit(i) == false)
-		{
-			continue;
-		}
-		else if (index > 3)
-		{
-			std::cout << "!오류 : 유효한 아이피가 아닙니다" << std::endl;
-			return false;
-		}
-		ipNumbers[index] += i;
-	}
-
-	for (std::string str : ipNumbers)
-	{
-		if (str.size() == 0)
-		{
-			std::cout << "오류 : 유효한 아이피가 아닙니다" << std::endl;
-			return false;
-		}
-		if (IsNumberString(str) == false)
-		{
-			std::cout << "오류 : 아이피가 숫자가 아닙니다" << std::endl;
-			return false;
-		}
-		if (IsRangeIp4(str) == false)
-		{
-			std::cout << "오류 : 아이피가 0~255 범위가 아닙니다" << std::endl;
-			return false;
-		}
-	}
-
-	strIp = "";
-	for (int i = 0; i < 4; i++)
-	{
-		strIp += ipNumbers[i];
-		if (i < 3)
-		{
-			strIp += ".";
-		}
-	}
-	
-	return true;
+	int num = stoi(str);
+	return (num >= 0 && num < 65535);
 }
 
-// 유효한 포트인지 체크
-bool IsValidPort(int port)
+// 특정 char 개수 리턴
+int GetCharCount(const string& srcIp, const char findChar)
 {
-	if (port < 0 || port > 65535)
+	int count = 0;
+
+	for (char c : srcIp)
 	{
-		std::cout << "오류 : 포트가 0~65535 범위가 아닙니다" << std::endl;
+		if (c == findChar)
+		{
+			count++;
+		}
+	}
+	return count;
+}
+
+// 유효한 IPv4주소인지 체크
+bool ValidIp(const string& src)
+{
+	if (GetCharCount(src, '.') != 3)
+	{
 		return false;
 	}
+	vector<string> split = SplitString(src, ':');
+	string ip = split[0];
+
+	vector<string> numbers = SplitString(ip, '.');
+	for (string num : numbers)
+	{
+		if (IsNumberString(num) == false)
+		{
+			return false;
+		}
+		if (ValidRangeIp(num) == false)
+		{
+			return false;
+		}
+	}
 	return true;
 }
 
+
+
+// IPv4와 Port번호를 받는다 
 int main()
 {
-	std::string Ip;
-	int Port = -1;
-
-	while (true)
-	{
-		std::cout << "Ip주소를 입력해주세요" << std::endl;
-		std::cin >> Ip;
-
-		if ("Q" == Ip
-			|| "q" == Ip)
-		{
-			Ip = "127.0.0.1";
-		}
-
-		Port = ExtractPort(Ip);
-
-		if (IsValidIp4(Ip))
-		{	
-			break;
-		}
-	}
+	string Ip;
+	string Port;
 	
-	while (Port == -1)
+	while (Ip.empty())
 	{
-		std::cout << "Port번호를 입력해주세요" << std::endl;
-		std::cin >> Port;
+		cout << "Ip주소를 입력해주세요" << endl;
+		string input;
+		cin >> input;
 
-		if (IsValidPort(Port))
+		if (ValidIp(input))
 		{
-			break;
+			vector<string> splits = SplitString(input, ':');
+			Ip = splits[0];
+
+			if (splits.size() > 1)
+			{
+				string tempPort = splits[1];
+
+				if (IsNumberString(tempPort) == false)
+				{
+					break;
+				}
+				if (ValidRangePort(tempPort) == false)
+				{
+					break;
+				}
+				Port = tempPort;
+			}
 		}
-		Port = -1;
 	}
 
-	std::cout << "Ip : " << Ip << std::endl;
-	std::cout << "Port : " << Port << std::endl;
+	while (Port.empty())
+	{
+		cout << "Port번호를 입력해주세요" << endl;
+		string inputPort;
+		cin >> inputPort;
+
+		if (IsNumberString(inputPort) == false)
+		{
+			continue;
+		}
+		if (ValidRangePort(inputPort) == false)
+		{
+			continue;
+		}
+		Port = inputPort;
+
+	}
+
+	cout << "Ip : " << Ip << endl;
+	cout << "Port : " << Port << endl;
 }
