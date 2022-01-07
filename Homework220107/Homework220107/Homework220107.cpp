@@ -46,7 +46,7 @@ bool IsValidIp4(std::string& strIp)
 	std::string ipNumbers[4];
 
 	for (char i : strIp)
-	{
+	{	
 		if (i == '.')
 		{
 			index++;
@@ -59,6 +59,11 @@ bool IsValidIp4(std::string& strIp)
 		else if (std::isdigit(i) == false)
 		{
 			continue;
+		}
+		else if (index > 3)
+		{
+			std::cout << "!오류 : 유효한 아이피가 아닙니다" << std::endl;
+			return false;
 		}
 		ipNumbers[index] += i;
 	}
@@ -122,12 +127,12 @@ int main()
 			Ip = "127.0.0.1";
 		}
 
+		Port = ExtractPort(Ip);
+
 		if (IsValidIp4(Ip))
-		{
+		{	
 			break;
 		}
-
-		Port = ExtractPort(Ip);
 	}
 	
 	while (Port == -1)
