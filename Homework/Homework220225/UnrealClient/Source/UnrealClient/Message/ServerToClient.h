@@ -117,3 +117,42 @@ public:
     }                                                           
 };                                                              
 
+class TestMessage : public GameServerMessage                    
+{                                                               
+public:                                                         
+	int asr;
+                                                                
+public:                                                         
+    TestMessage()                                               
+        : GameServerMessage(MessageId::Test)                    
+        , asr()
+    {                                                           
+                                                                
+    }                                                           
+                                                                
+    virtual ~TestMessage() {}                                   
+                                                                
+    virtual int SizeCheck()                                     
+    {                                                           
+		return DataSizeCheck(asr);
+    }                                                           
+                                                                
+    void Serialize(GameServerSerializer& _Serializer)           
+    {                                                           
+        GameServerMessage::Serialize(_Serializer);              
+        _Serializer << asr;
+
+    }                                                           
+                                                                
+    void DeSerialize(GameServerSerializer& _Serializer)         
+    {                                                           
+        GameServerMessage::DeSerialize(_Serializer);            
+        _Serializer >> asr;
+
+    }                                                           
+};                                                              
+
+rializer >> asr;
+
+    }                                                           
+}; 

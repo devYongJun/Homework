@@ -21,6 +21,9 @@ MessageConverter::MessageConverter(const std::vector<unsigned char>&_buffer)
 	case MessageId::MonsterUpdate:
 		Message_ = std::make_shared<MonsterUpdateMessage>();
 		break;
+	case MessageId::Test:
+		Message_ = std::make_shared<TestMessage>();
+		break;
 	case MessageId::Chat:
 		Message_ = std::make_shared<ChatMessage>();
 		break;

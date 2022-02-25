@@ -451,20 +451,7 @@ int main()
 		}
 
 
-		// 여러분들은 이부분을 채워라
-		if (writeWorks.size() == expectedWorkCount)
-		{
-			for (auto& work : writeWorks)
-			{
-				work();
-			}
-			std::cout << "Success!" << std::endl;
-		}
-		else
-		{
-			std::cout << "Failed.." << std::endl;
-			return 1;
-		}
+		
 	}
 
 
@@ -481,6 +468,7 @@ int main()
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("GameServerSerializer.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
@@ -488,18 +476,25 @@ int main()
 				, strlen("#include \"GameServerMathStruct.h\"\n"), "\n");
 
 			std::string SavePath = SaveDir.PathToPlusFileName("GameServerSerializer.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("GameServerSerializer.cpp"), "rt" };
 			std::string Code = LoadFile.GetString();
 
 			Code.erase(0, strlen("#include \"PreCompile.h\"") + 1);
 			std::string SavePath = SaveDir.PathToPlusFileName("GameServerSerializer.cpp");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 	}
 
@@ -516,6 +511,7 @@ int main()
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("GameServerMessage.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
@@ -526,39 +522,59 @@ int main()
 				, strlen("#include <GameServerBase/GameServerSerializer.h>\n"), "#include \"GameServerSerializer.h\"\n");
 
 			std::string SavePath = SaveDir.PathToPlusFileName("GameServerMessage.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerToClient.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 			std::string SavePath = SaveDir.PathToPlusFileName("ServerToClient.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ClientToServer.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 			std::string SavePath = SaveDir.PathToPlusFileName("ClientToServer.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ServerAndClient.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 			std::string SavePath = SaveDir.PathToPlusFileName("ServerAndClient.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("Messages.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
@@ -568,55 +584,80 @@ int main()
 
 
 			std::string SavePath = SaveDir.PathToPlusFileName("Messages.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("MessageIdEnum.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
 			std::string SavePath = SaveDir.PathToPlusFileName("MessageIdEnum.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("ContentsEnums.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
 			std::string SavePath = SaveDir.PathToPlusFileName("ContentsEnums.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 
 		}
 
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("MessageConverter.h"), "rt" };
 			std::string Code = LoadFile.GetString();
 
 			std::string SavePath = SaveDir.PathToPlusFileName("MessageConverter.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 
 		}
 
 		{
+			expectedWorkCount++;
 			GameServerFile LoadFile = { FileDir.PathToPlusFileName("MessageConverter.cpp"), "rt" };
 			std::string Code = LoadFile.GetString();
 
 			Code.erase(0, strlen("#include \"PreCompile.h\"") + 1);
 
 			std::string SavePath = SaveDir.PathToPlusFileName("MessageConverter.cpp");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(Code.c_str(), Code.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, Code]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(Code.c_str(), Code.size());
+				});
 		}
 
 		{
 			///DisFile CREATE////////////////////////////////////////////////////////////////////////////
+			expectedWorkCount++;
 			std::string DisText;
 
 			DisText += "#pragma once																									  \n";
@@ -661,48 +702,30 @@ int main()
 			DisText += "}																																													\n";
 
 			std::string SavePath = SaveDir.PathToPlusFileName("Handler\\HandlerHeader.h");
-			GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
-			SaveFile.Write(DisText.c_str(), DisText.size());
+			
+			// 숙제코드 추가
+			writeWorks.push_back([SavePath, DisText]() {
+				GameServerFile SaveFile = GameServerFile{ SavePath, "wt" };
+				SaveFile.Write(DisText.c_str(), DisText.size());
+				});
 		}
-
-
-
-
 	}
 
-	//if (어떠한 사소한 문제라도 있었다면)
-	//{
-	//	return 1;
-	//}
+	// 최종 저장 
+	if (writeWorks.size() == expectedWorkCount)
+	{
+		for (auto& work : writeWorks)
+		{
+			work();
+		}
+		std::cout << "Success!" << std::endl;
+	}
+	else
+	{
+		std::cout << "Failed.." << std::endl;
+		return 1;
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// 
-	// 
 	return 0;
 
 }
