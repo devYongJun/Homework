@@ -6,6 +6,7 @@ enum class MessageId
 	LoginResult,
 	ServerDestroy,
 	MonsterUpdate,
+	Test,
 	Chat,
 	MAX
 };
