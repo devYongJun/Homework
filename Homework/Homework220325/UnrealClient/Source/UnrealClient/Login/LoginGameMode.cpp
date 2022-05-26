@@ -19,9 +19,9 @@ ALoginGameMode::ALoginGameMode()
 	
 	// 소멸도 알아서 시키는데
 
-	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.bTickEvenWhenPaused = true;
-	PrimaryActorTick.TickGroup = TG_PrePhysics;
+	//PrimaryActorTick.bCanEverTick = true;
+	//PrimaryActorTick.bTickEvenWhenPaused = true;
+	//PrimaryActorTick.TickGroup = TG_PrePhysics;
 
 }
 
